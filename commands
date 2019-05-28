@@ -1,0 +1,41 @@
+
+
+
+docker container list -a
+
+docker system prune
+
+docker rmi contacts sortsave_app --force
+
+docker images
+
+docker ps
+
+docker network create rabbits
+
+docker run -d --network rabbits -e RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-setcookie SDKWEYQPZASDNAASDQWEQWE" --hostname rabbit-1 --name rabbit-1 rabbitmq
+docker run -d --network rabbits -e RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-setcookie SDKWEYQPZASDNAASDQWEQWE" --hostname rabbit-2 --name rabbit-2 rabbitmq
+docker run -d --network rabbits -e RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-setcookie SDKWEYQPZASDNAASDQWEQWE" --hostname rabbit-3 --name rabbit-3 rabbitmq
+
+docker exec -it rabbit-1 /bin/bash
+
+docker exec rabbit-1 rabbitmqctl cluster_status
+docker exec rabbit-2 rabbitmqctl cluster_status
+docker exec rabbit-3 rabbitmqctl cluster_status
+
+docker exec rabbit-1 /bin/bash -c "cat \$(find / -iname .erlang.cookie)"
+
+docker exec rabbit-1 echo ~/.erlang.cookie
+
+docker exec rabbit-2 /bin/bash -c "echo -n SDKWEYQPZASDNAASDQWEQWE > ~/.erlang.cookie && rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl join_cluster rabbit@rabbit-1 && rabbitmqctl start_app"
+docker exec rabbit-3 /bin/bash -c "echo -n SDKWEYQPZASDNAASDQWEQWE > ~/.erlang.cookie && rabbitmqctl stop_app && rabbitmqctl reset && rabbitmqctl join_cluster rabbit@rabbit-1 && rabbitmqctl start_app"
+
+docker logs rabbit-1
+
+docker stop rabbit-1
+
+docker rm --force rabbit-1 rabbit-2 rabbit-3 rabbit-4 rabbit-5
+
+
+docker kill $(docker ps -q); docker rm $(docker ps -a -q)
+
