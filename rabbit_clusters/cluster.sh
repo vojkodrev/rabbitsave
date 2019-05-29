@@ -2,7 +2,14 @@
 
 set -e
 
-sleep $WAIT_FOR_RABBIT
+wait_for_rabbit () {
+  while ! rabbitmqctl cluster_status > /dev/null 2>&1; do
+    echo "$CLUSTER_NODENAME not online, retrying ..."
+    sleep 0.25  
+  done 
+}
+
+wait_for_rabbit
 
 rabbitmqctl stop_app 
 
@@ -12,7 +19,7 @@ rabbitmqctl join_cluster $CLUSTER_NODENAME
 
 rabbitmqctl start_app
 
-sleep `expr $WAIT_FOR_RABBIT / 3`
+wait_for_rabbit
 
 rabbitmqctl cluster_status
 

@@ -37,7 +37,6 @@ services:
     environment:
       CLUSTER_NODENAME: rabbit@rabbit-1
       RABBITMQ_NODENAME: rabbit@rabbit-2     
-      WAIT_FOR_RABBIT: 30 
     depends_on:
       - rabbit-1
       - rabbit-2
@@ -49,7 +48,6 @@ services:
     environment:
       CLUSTER_NODENAME: rabbit@rabbit-1
       RABBITMQ_NODENAME: rabbit@rabbit-3
-      WAIT_FOR_RABBIT: 30
     depends_on:    
       - rabbit-cluster-2
 

@@ -39,3 +39,5 @@ docker rm --force rabbit-1 rabbit-2 rabbit-3 rabbit-4 rabbit-5
 
 docker kill $(docker ps -q); docker rm $(docker ps -a -q)
 
+ip a
+
