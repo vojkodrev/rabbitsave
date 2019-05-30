@@ -23,6 +23,8 @@ docker exec rabbit-1 rabbitmqctl cluster_status
 docker exec rabbit-2 rabbitmqctl cluster_status
 docker exec rabbit-3 rabbitmqctl cluster_status
 
+docker exec rabbit-1 rabbitmqctl list_queues
+
 docker exec rabbit-1 /bin/bash -c "cat \$(find / -iname .erlang.cookie)"
 
 docker exec rabbit-1 echo ~/.erlang.cookie
@@ -40,4 +42,11 @@ docker rm --force rabbit-1 rabbit-2 rabbit-3 rabbit-4 rabbit-5
 docker kill $(docker ps -q); docker rm $(docker ps -a -q)
 
 ip a
+ss -lntu
+
+iptables -N TCP
+iptables -A TCP -p tcp --dport 50001 -j ACCEPT
+iptables -A TCP -p tcp --dport 50002 -j ACCEPT
+iptables -A TCP -p tcp --dport 50003 -j ACCEPT
+
 
