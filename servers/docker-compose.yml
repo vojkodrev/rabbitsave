@@ -10,7 +10,6 @@ services:
     ports:
       - 50001:5672      
 
-
   rabbit-2:
     image: rabbitmq
     container_name: rabbit-2
@@ -20,7 +19,6 @@ services:
     ports:
       - 50002:5672     
 
-
   rabbit-3:
     image: rabbitmq
     container_name: rabbit-3
@@ -28,26 +26,14 @@ services:
     volumes:
       - "./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
     ports:
-      - 50003:5672                 
-
-
-  # rabbit-cluster-2:
-  #   build: rabbit_clusters/.
-  #   container_name: rabbit-cluster-2
-  #   environment:
-  #     CLUSTER_NODENAME: rabbit@rabbit-1
-  #     RABBITMQ_NODENAME: rabbit@rabbit-2     
-  #   depends_on:
-  #     - rabbit-1
-  #     - rabbit-2
-  #     - rabbit-3
-
-  # rabbit-cluster-3:
-  #   build: rabbit_clusters/.
-  #   container_name: rabbit-cluster-3
-  #   environment:
-  #     CLUSTER_NODENAME: rabbit@rabbit-1
-  #     RABBITMQ_NODENAME: rabbit@rabbit-3
-  #   depends_on:    
-  #     - rabbit-cluster-2
-
+      - 50003:5672       
+      
+  postgres:
+    image: "postgres"
+    container_name: postgres-rabbitsave
+    environment:
+      - POSTGRES_PASSWORD=sortsavepass
+    volumes:
+      - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
+    ports:
+      - "5432:5432"      
