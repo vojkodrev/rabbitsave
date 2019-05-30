@@ -1,5 +1,6 @@
 package com.vojkodrev.rabbitSave.writeToQueue;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -11,10 +12,10 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 
   private final SortSaveLine item;
 
-  final static Logger logger = Logger.getLogger(SortSave.class);
+  final static Logger logger = Logger.getLogger(RabbitQueuer.class);
   private static final String EXCHANGE_NAME = "match_events";
   private static final String QUEUE_PREFIX = "queue_";
-  private static final int QUEUE_COUNT = 10;
+  private static int rabbitmqQueueCount;
   private static Channel channel;
 
   public RabbitQueuer(SortSaveLine item) {
@@ -25,22 +26,26 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
   public void subscribe(Observer<? super SortSaveLine> observer) {
     try {
       if (channel == null) {
+        logger.info("CONNECTING TO RABBIT MQ");
+
         String rabbitmqHost = System.getenv("RABBITMQ_HOST");
-        String rabbitmqPort = System.getenv("RABBITMQ_PORT");
+        int rabbitmqPort = Integer.parseInt(System.getenv("RABBITMQ_PORT"));
+        rabbitmqQueueCount = Integer.parseInt(System.getenv("RABBITMQ_QUEUE_COUNT"));
 
         logger.info("RABBITMQ HOST: " + rabbitmqHost);
         logger.info("RABBITMQ PORT: " + rabbitmqPort);
+        logger.info("RABBITMQ QUEUE COUNT: " + rabbitmqQueueCount);
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(rabbitmqHost);
-        factory.setPort(Integer.parseInt(rabbitmqPort));
+        factory.setPort(rabbitmqPort);
 
         Connection connection = factory.newConnection();
         channel = connection.createChannel();
         channel.exchangeDeclare(EXCHANGE_NAME, "direct");
       }
 
-      String queue = QUEUE_PREFIX + (item.matchId % QUEUE_COUNT);
+      String queue = QUEUE_PREFIX + (item.matchId % rabbitmqQueueCount);
       String message = item.data;
 
       channel.basicPublish(EXCHANGE_NAME, queue, null, message.getBytes("UTF-8"));

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
 
-  private static final Pattern pattern = Pattern.compile("\\d+");
+  private static final Pattern pattern = Pattern.compile("'.+?(\\d+?)'\\|(\\d+?)\\|'(.+?)'\\|('(.+?)')?");
   private final String line;
 
   public SortSaveRegexParser(String line) {
@@ -25,12 +25,18 @@ public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
       return;
     }
 
+    String specifiers = matcher.group(5);
+    if (specifiers == null) {
+      specifiers = "";
+    }
+
     SortSaveLine sortSaveLine = new SortSaveLine(
-      Integer.parseInt(matcher.group(0)),
-      line);
+      Integer.parseInt(matcher.group(1)),
+      Integer.parseInt(matcher.group(2)),
+      matcher.group(3),
+      specifiers);
 
     observer.onNext(sortSaveLine);
     observer.onComplete();
   }
 }
-
