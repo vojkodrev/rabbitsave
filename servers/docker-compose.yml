@@ -6,7 +6,7 @@ services:
     container_name: rabbit-1
     hostname: rabbit-1
     volumes:
-      - "./rabbit_clusters/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
+      - "./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
     ports:
       - 50001:5672      
 
@@ -16,7 +16,7 @@ services:
     container_name: rabbit-2
     hostname: rabbit-2
     volumes:
-      - "./rabbit_clusters/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
+      - "./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
     ports:
       - 50002:5672     
 
@@ -26,7 +26,7 @@ services:
     container_name: rabbit-3
     hostname: rabbit-3
     volumes:
-      - "./rabbit_clusters/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
+      - "./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
     ports:
       - 50003:5672                 
 
