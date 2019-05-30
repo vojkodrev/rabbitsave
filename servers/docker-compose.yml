@@ -31,23 +31,23 @@ services:
       - 50003:5672                 
 
 
-  rabbit-cluster-2:
-    build: rabbit_clusters/.
-    container_name: rabbit-cluster-2
-    environment:
-      CLUSTER_NODENAME: rabbit@rabbit-1
-      RABBITMQ_NODENAME: rabbit@rabbit-2     
-    depends_on:
-      - rabbit-1
-      - rabbit-2
-      - rabbit-3
+  # rabbit-cluster-2:
+  #   build: rabbit_clusters/.
+  #   container_name: rabbit-cluster-2
+  #   environment:
+  #     CLUSTER_NODENAME: rabbit@rabbit-1
+  #     RABBITMQ_NODENAME: rabbit@rabbit-2     
+  #   depends_on:
+  #     - rabbit-1
+  #     - rabbit-2
+  #     - rabbit-3
 
-  rabbit-cluster-3:
-    build: rabbit_clusters/.
-    container_name: rabbit-cluster-3
-    environment:
-      CLUSTER_NODENAME: rabbit@rabbit-1
-      RABBITMQ_NODENAME: rabbit@rabbit-3
-    depends_on:    
-      - rabbit-cluster-2
+  # rabbit-cluster-3:
+  #   build: rabbit_clusters/.
+  #   container_name: rabbit-cluster-3
+  #   environment:
+  #     CLUSTER_NODENAME: rabbit@rabbit-1
+  #     RABBITMQ_NODENAME: rabbit@rabbit-3
+  #   depends_on:    
+  #     - rabbit-cluster-2
 
