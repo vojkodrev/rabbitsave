@@ -7,8 +7,7 @@ import java.util.Date;
 public class SortSaveLine {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.TABLE)
-  public int id;
+  public String id;
 
   public long savedAt;
   public long receivedAt;

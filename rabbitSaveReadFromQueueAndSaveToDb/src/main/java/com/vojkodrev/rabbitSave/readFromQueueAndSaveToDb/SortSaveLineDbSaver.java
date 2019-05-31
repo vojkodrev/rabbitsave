@@ -11,6 +11,7 @@ import org.hibernate.cfg.Environment;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>> {
 
@@ -70,6 +71,7 @@ public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>>
       for (int i = 0; i < list.size(); i++) {
         SortSaveLine ssl = list.get(i);
         ssl.savedAt = System.currentTimeMillis();
+        ssl.id = UUID.randomUUID().toString();
         session.save(ssl);
       }
       tx.commit();
