@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+
+  rabbitsave-write-to-queue:
+    build: .
+    container_name: rabbitsave-write-to-queue
+    environment:
+      - RABBITMQ_HOST=rabbit-2
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE_COUNT=10
+    networks:
+      - rabbitsave-network        
+
+networks:
+  rabbitsave-network:
+    name: rabbitsave-network      
+
