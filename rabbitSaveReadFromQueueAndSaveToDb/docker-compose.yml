@@ -1,0 +1,187 @@
+version: '3.7'
+services:
+
+  rabbitsave-read-from-queue-write-to-db-1:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-1
+    environment:
+      - RABBITMQ_HOST=rabbit-1
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_0
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network        
+
+  rabbitsave-read-from-queue-write-to-db-2:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-2
+    environment:
+      - RABBITMQ_HOST=rabbit-2
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_1
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-3:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-3
+    environment:
+      - RABBITMQ_HOST=rabbit-3
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_2
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-4:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-4
+    environment:
+      - RABBITMQ_HOST=rabbit-1
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_3
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-5:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-5
+    environment:
+      - RABBITMQ_HOST=rabbit-2
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_4
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-6:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-6
+    environment:
+      - RABBITMQ_HOST=rabbit-3
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_5
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-7:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-7
+    environment:
+      - RABBITMQ_HOST=rabbit-1
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_6
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-8:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-8
+    environment:
+      - RABBITMQ_HOST=rabbit-2
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_7
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-9:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-9
+    environment:
+      - RABBITMQ_HOST=rabbit-3
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_8
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network     
+
+  rabbitsave-read-from-queue-write-to-db-10:
+    build: .
+    container_name: rabbitsave-read-from-queue-write-to-db-10
+    environment:
+      - RABBITMQ_HOST=rabbit-1
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_QUEUE=queue_9
+      - POSTGRES_HOST=rabbitsave-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=rabbitsave
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=rabbitsavepass
+      - POSTGRES_BATCH_SIZE=50
+      - OBSERVABLE_BUFFER_SIZE=500
+      - OBSERVABLE_BUFFER_TIME_LIMIT=2000
+    networks:
+      - rabbitsave-network                                                           
+
+networks:
+  rabbitsave-network:
+    name: rabbitsave-network      
+
