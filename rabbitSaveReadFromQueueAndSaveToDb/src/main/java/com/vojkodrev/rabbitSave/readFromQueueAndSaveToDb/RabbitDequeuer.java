@@ -38,16 +38,18 @@ public class RabbitDequeuer implements ObservableOnSubscribe<String> {
 
       channel.queueBind(queueName, EXCHANGE_NAME, rabbitmqQueueName);
 
-      logger.info(" [*] Waiting for messages. To exit press CTRL+C");
+//      logger.info(" [*] Waiting for messages. To exit press CTRL+C");
 
       DeliverCallback deliverCallback = (consumerTag, delivery) -> {
         String message = new String(delivery.getBody(), "UTF-8");
-        logger.info(" [x] Received '" + delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
+//        logger.info(" [x] Received '" + delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
 
         observableEmitter.onNext(message);
       };
 
       channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
+
+      logger.info("CONNECTED TO RABBITMQ");
 
     } catch (Throwable t) {
       observableEmitter.onError(t);

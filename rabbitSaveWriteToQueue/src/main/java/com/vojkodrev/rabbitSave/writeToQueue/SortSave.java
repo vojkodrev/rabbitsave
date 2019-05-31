@@ -16,6 +16,8 @@ public class SortSave {
   public static void main(String [] args)
   {
 
+    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50002;RABBITMQ_QUEUE_COUNT=10
+
 
     logger.info("START!");
 
@@ -23,7 +25,7 @@ public class SortSave {
       .create(new FileLineReader(args[0]))
       .skip(1)
       .flatMap(SortSaveRegexParser::new)
-      .take(10)
+//      .take(10)
       .flatMap(RabbitQueuer::new)
       .subscribe(
         item -> {

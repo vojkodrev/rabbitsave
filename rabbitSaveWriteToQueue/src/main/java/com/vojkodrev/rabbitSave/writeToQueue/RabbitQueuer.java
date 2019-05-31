@@ -26,8 +26,6 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
   public void subscribe(Observer<? super SortSaveLine> observer) {
     try {
       if (channel == null) {
-        logger.info("CONNECTING TO RABBIT MQ");
-
         String rabbitmqHost = System.getenv("RABBITMQ_HOST");
         int rabbitmqPort = Integer.parseInt(System.getenv("RABBITMQ_PORT"));
         rabbitmqQueueCount = Integer.parseInt(System.getenv("RABBITMQ_QUEUE_COUNT"));
@@ -43,13 +41,15 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
         Connection connection = factory.newConnection();
         channel = connection.createChannel();
         channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+
+        logger.info("CONNECTED TO RABBIT MQ");
       }
 
       String queue = QUEUE_PREFIX + (item.matchId % rabbitmqQueueCount);
       String message = item.data;
 
       channel.basicPublish(EXCHANGE_NAME, queue, null, message.getBytes("UTF-8"));
-      logger.info(" [x] Sent '" + queue + "':'" + message + "'");
+//      logger.info(" [x] Sent '" + queue + "':'" + message + "'");
 
       observer.onNext(item);
       observer.onComplete();

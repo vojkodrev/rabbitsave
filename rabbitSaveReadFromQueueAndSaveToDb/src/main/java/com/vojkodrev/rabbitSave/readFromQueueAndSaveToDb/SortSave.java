@@ -7,21 +7,30 @@ import com.rabbitmq.client.DeliverCallback;
 import io.reactivex.Observable;
 import org.apache.log4j.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 public class SortSave {
   final static Logger logger = Logger.getLogger(SortSave.class);
 
   public static void main(String [] args)
   {
+    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50003;RABBITMQ_QUEUE=queue_1;POSTGRES_HOST=192.168.1.127;POSTGRES_PORT=5432;POSTGRES_DB_NAME=rabbitsave;POSTGRES_USERNAME=postgres;POSTGRES_PASSWORD=rabbitsavepass;POSTGRES_BATCH_SIZE=50;OBSERVABLE_BUFFER_SIZE=500
+
+    int bufferSize = Integer.parseInt(System.getenv("OBSERVABLE_BUFFER_SIZE"));
+
+    logger.info("OBSERVABLE BUFFER SIZE: " + bufferSize);
     logger.info("START!");
 
     Observable
       .create(new RabbitDequeuer())
       .flatMap(SortSaveRegexParser::new)
+      .buffer(1, TimeUnit.SECONDS, bufferSize)
+      .flatMap(SortSaveLineDbSaver::new)
 //      .take(10)
 //      .flatMap(RabbitQueuer::new)
       .subscribe(
         item -> {
-          logger.info(item);
+//          logger.info(item);
         },
         error -> {
           logger.error(error.getMessage(), error);
