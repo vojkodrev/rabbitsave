@@ -42,9 +42,10 @@ services:
     volumes:
       - "./init.sql:/docker-entrypoint-initdb.d/init.sql"
     ports:
-      - "5432:5432"     
+      - "5432:5432"   
+    networks:
+      - rabbitsave-network         
 
-  networks:
-    rabbitsave-network:
-      external: true
-      name: rabbitsave-network
+networks:
+  rabbitsave-network:
+    name: rabbitsave-network
