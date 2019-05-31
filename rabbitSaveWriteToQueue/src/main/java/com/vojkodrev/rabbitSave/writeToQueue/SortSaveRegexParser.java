@@ -31,7 +31,7 @@ public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
 
     SortSaveLine sortSaveLine = new SortSaveLine(
       Integer.parseInt(matcher.group(0)),
-      line);
+      line + "|" + System.currentTimeMillis());
 
     observer.onNext(sortSaveLine);
     observer.onComplete();

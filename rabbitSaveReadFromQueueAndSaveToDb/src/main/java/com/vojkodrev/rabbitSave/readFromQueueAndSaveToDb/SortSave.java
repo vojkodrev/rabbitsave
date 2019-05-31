@@ -21,7 +21,7 @@ public class SortSave {
 
     logger.info("OBSERVABLE BUFFER SIZE: " + bufferSize);
     logger.info("OBSERVABLE BUFFER TIME LIMIT: " + bufferTimeLimit);
-    logger.info("START!");
+//    logger.info("START!");
 
     Observable
       .create(new RabbitDequeuer())
