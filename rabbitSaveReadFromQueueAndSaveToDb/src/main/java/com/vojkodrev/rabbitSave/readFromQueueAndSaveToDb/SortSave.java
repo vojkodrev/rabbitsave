@@ -14,17 +14,19 @@ public class SortSave {
 
   public static void main(String [] args)
   {
-    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50003;RABBITMQ_QUEUE=queue_1;POSTGRES_HOST=192.168.1.127;POSTGRES_PORT=5432;POSTGRES_DB_NAME=rabbitsave;POSTGRES_USERNAME=postgres;POSTGRES_PASSWORD=rabbitsavepass;POSTGRES_BATCH_SIZE=50;OBSERVABLE_BUFFER_SIZE=500
+    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50003;RABBITMQ_QUEUE=queue_1;POSTGRES_HOST=192.168.1.127;POSTGRES_PORT=5432;POSTGRES_DB_NAME=rabbitsave;POSTGRES_USERNAME=postgres;POSTGRES_PASSWORD=rabbitsavepass;POSTGRES_BATCH_SIZE=50;OBSERVABLE_BUFFER_SIZE=500;OBSERVABLE_BUFFER_TIME_LIMIT=2000
 
     int bufferSize = Integer.parseInt(System.getenv("OBSERVABLE_BUFFER_SIZE"));
+    int bufferTimeLimit = Integer.parseInt(System.getenv("OBSERVABLE_BUFFER_TIME_LIMIT"));
 
     logger.info("OBSERVABLE BUFFER SIZE: " + bufferSize);
+    logger.info("OBSERVABLE BUFFER TIME LIMIT: " + bufferTimeLimit);
     logger.info("START!");
 
     Observable
       .create(new RabbitDequeuer())
       .flatMap(SortSaveRegexParser::new)
-      .buffer(1, TimeUnit.SECONDS, bufferSize)
+      .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
       .flatMap(SortSaveLineDbSaver::new)
 //      .take(10)
 //      .flatMap(RabbitQueuer::new)
