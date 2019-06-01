@@ -1,6 +1,15 @@
 version: '3.7'
 services:
 
+  rabbit-0:
+    image: rabbitmq
+    container_name: rabbit-0
+    hostname: rabbit-0
+    ports:
+      - 50000:5672      
+    networks:
+      - rabbitsave-network     
+
   rabbit-1:
     image: rabbitmq
     container_name: rabbit-1
@@ -84,15 +93,6 @@ services:
       - 50009:5672      
     networks:
       - rabbitsave-network   
-
-  rabbit-10:
-    image: rabbitmq
-    container_name: rabbit-10
-    hostname: rabbit-10
-    ports:
-      - 50010:5672      
-    networks:
-      - rabbitsave-network            
 
   postgres:
     image: postgres
