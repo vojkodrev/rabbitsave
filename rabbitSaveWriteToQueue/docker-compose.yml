@@ -7,7 +7,7 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-2
       - RABBITMQ_PORT=5672
-      - RABBITMQ_QUEUE_COUNT=1
+      - RABBITMQ_QUEUE_COUNT=10
       - INPUT_FILE=fo_random.txt
     networks:
       - rabbitsave-network        
