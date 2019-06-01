@@ -12,7 +12,7 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
   private final SortSaveLine item;
 
   final static Logger logger = Logger.getLogger(RabbitQueuer.class);
-  private static final String EXCHANGE_NAME = "match_events";
+  private static final String EXCHANGE_NAME = "match_events_exchange";
   private static final String QUEUE_PREFIX = "queue_";
   private static int rabbitmqQueueCount;
   private static Channel channel;
