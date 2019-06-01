@@ -8,6 +8,8 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+
 public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 
   private final SortSaveLine item;
@@ -17,6 +19,7 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
   private static final String QUEUE_PREFIX = "queue_";
   private static int rabbitmqQueueCount;
   private static Channel channel;
+  public static HashMap<String, Integer> statistics = new HashMap<>();
 
   public RabbitQueuer(SortSaveLine item) {
     this.item = item;
@@ -50,6 +53,12 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 
       channel.basicPublish(EXCHANGE_NAME, queue, null, message.getBytes("UTF-8"));
 //      logger.info(" [x] Sent '" + queue + "':'" + message + "'");
+
+      if (!statistics.containsKey(queue)) {
+        statistics.put(queue, 0);
+      }
+
+      statistics.put(queue, statistics.get(queue) + 1);
 
       observer.onNext(item);
       observer.onComplete();

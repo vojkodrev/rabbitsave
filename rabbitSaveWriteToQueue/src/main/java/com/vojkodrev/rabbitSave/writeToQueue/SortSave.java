@@ -6,6 +6,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import io.reactivex.Observable;
 import org.apache.log4j.Logger;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SortSave {
@@ -35,6 +36,16 @@ public class SortSave {
         },
         () -> {
           logger.info("DONE!");
+
+          logger.info("STATS " + RabbitQueuer.statistics);
+
+          int sum = 0;
+          for (Map.Entry<String, Integer> item : RabbitQueuer.statistics.entrySet()) {
+            sum += item.getValue();
+          }
+
+          logger.info("SUM " + sum);
+
           System.exit(0);
         }
       );
