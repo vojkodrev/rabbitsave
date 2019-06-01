@@ -17,7 +17,7 @@ public class SortSave {
   public static void main(String [] args)
   {
 
-    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50002;RABBITMQ_QUEUE_COUNT=10;INPUT_FILE=fo_random.txt
+    // RABBITMQ_SERVERS=192.168.1.127:50000,192.168.1.127:50001,192.168.1.127:50002,192.168.1.127:50003,192.168.1.127:50004,192.168.1.127:50005,192.168.1.127:50006,192.168.1.127:50007,192.168.1.127:50008,192.168.1.127:50009;INPUT_FILE=fo_random.txt
 
 
 
@@ -43,7 +43,7 @@ public class SortSave {
           logger.info("STATS " + RabbitQueuer.statistics);
 
           int sum = 0;
-          for (Map.Entry<String, Integer> item : RabbitQueuer.statistics.entrySet()) {
+          for (Map.Entry<Integer, Integer> item : RabbitQueuer.statistics.entrySet()) {
             sum += item.getValue();
           }
 
