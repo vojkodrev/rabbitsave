@@ -8,12 +8,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Environment;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>> {
+public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
 
   private final List<SortSaveLine> list;
 
@@ -25,7 +27,7 @@ public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>>
   }
 
   @Override
-  public void subscribe(Observer<? super List<SortSaveLine>> observer) {
+  public void subscribe(Subscriber<? super List<SortSaveLine>> subscriber) {
     try {
 
       if (session == null) {
@@ -62,7 +64,7 @@ public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>>
       }
 
       if (list.isEmpty()) {
-        observer.onComplete();
+        subscriber.onComplete();
         return;
       }
 
@@ -77,11 +79,11 @@ public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>>
       tx.commit();
 
 
-      observer.onNext(list);
-      observer.onComplete();
+      subscriber.onNext(list);
+      subscriber.onComplete();
 
     } catch (Throwable t) {
-      observer.onError(t);
+      subscriber.onError(t);
     }
 
   }

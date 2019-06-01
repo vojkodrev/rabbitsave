@@ -4,6 +4,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import org.apache.log4j.Logger;
 
@@ -23,8 +25,7 @@ public class SortSave {
     logger.info("OBSERVABLE BUFFER TIME LIMIT: " + bufferTimeLimit);
 //    logger.info("START!");
 
-    Observable
-      .create(new RabbitDequeuer())
+    Flowable.create(new RabbitDequeuer(), BackpressureStrategy.BUFFER)
       .flatMap(SortSaveRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
       .flatMap(SortSaveLineDbSaver::new)

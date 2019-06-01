@@ -3,11 +3,13 @@ package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
+public class SortSaveRegexParser implements Publisher<SortSaveLine> {
 
   final static Logger logger = Logger.getLogger(SortSaveRegexParser.class);
   private static final Pattern pattern = Pattern.compile("'.+?(\\d+?)'\\|(\\d+?)\\|'(.+?)'\\|('(.+?)')?\\|(\\d+)");
@@ -18,12 +20,12 @@ public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
   }
 
   @Override
-  public void subscribe(Observer<? super SortSaveLine> observer) {
+  public void subscribe(Subscriber<? super SortSaveLine> subscriber) {
 
     Matcher matcher = pattern.matcher(line);
 
     if (!matcher.find()) {
-      observer.onError(new Exception("Unable to parse \"" + line + "\"!"));
+      subscriber.onError(new Exception("Unable to parse \"" + line + "\"!"));
       return;
     }
 
@@ -41,7 +43,7 @@ public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
 
 //    logger.info("parsed item " + sortSaveLine);
 
-    observer.onNext(sortSaveLine);
-    observer.onComplete();
+    subscriber.onNext(sortSaveLine);
+    subscriber.onComplete();
   }
 }

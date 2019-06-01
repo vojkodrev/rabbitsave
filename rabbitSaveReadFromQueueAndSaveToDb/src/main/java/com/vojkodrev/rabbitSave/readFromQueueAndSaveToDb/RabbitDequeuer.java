@@ -1,11 +1,13 @@
 package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 
 import com.rabbitmq.client.*;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import org.apache.log4j.Logger;
 
-public class RabbitDequeuer implements ObservableOnSubscribe<String> {
+public class RabbitDequeuer implements FlowableOnSubscribe<String> {
 
 
   final static Logger logger = Logger.getLogger(RabbitDequeuer.class);
@@ -14,7 +16,7 @@ public class RabbitDequeuer implements ObservableOnSubscribe<String> {
   public RabbitDequeuer() { }
 
   @Override
-  public void subscribe(ObservableEmitter<String> observableEmitter) throws Exception {
+  public void subscribe(FlowableEmitter<String> flowableEmitter) throws Exception {
 
     try {
 
@@ -44,7 +46,7 @@ public class RabbitDequeuer implements ObservableOnSubscribe<String> {
         String message = new String(delivery.getBody(), "UTF-8");
 //        logger.info(" [x] Received '" + delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
 
-        observableEmitter.onNext(message);
+        flowableEmitter.onNext(message);
       };
 
       channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
@@ -52,7 +54,7 @@ public class RabbitDequeuer implements ObservableOnSubscribe<String> {
       logger.info("CONNECTED TO RABBITMQ");
 
     } catch (Throwable t) {
-      observableEmitter.onError(t);
+      flowableEmitter.onError(t);
     }
   }
 }

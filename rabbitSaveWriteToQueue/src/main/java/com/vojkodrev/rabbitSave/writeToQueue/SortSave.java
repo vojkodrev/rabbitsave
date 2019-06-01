@@ -17,13 +17,16 @@ public class SortSave {
   public static void main(String [] args)
   {
 
-    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50002;RABBITMQ_QUEUE_COUNT=10
+    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50002;RABBITMQ_QUEUE_COUNT=10;INPUT_FILE=fo_random.txt
 
 
-    logger.info("START!");
+
+    String inputFile = System.getenv("INPUT_FILE");
+
+    logger.info("INPUT FILE: " + inputFile);
 
     Observable
-      .create(new FileLineReader(args[0]))
+      .create(new FileLineReader(inputFile))
       .skip(1)
       .flatMap(SortSaveRegexParser::new)
 //      .take(10)

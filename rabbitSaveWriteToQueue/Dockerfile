@@ -19,4 +19,4 @@ RUN mvn package
 
 COPY fo_random.txt fo_random.txt
 
-CMD ["java", "-jar", "target/app-0.0.1-SNAPSHOT-jar-with-dependencies.jar", "fo_random.txt"]
+CMD ["java", "-jar", "target/app-0.0.1-SNAPSHOT-jar-with-dependencies.jar"]
