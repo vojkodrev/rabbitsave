@@ -33,7 +33,7 @@ public class RabbitDequeuer implements ObservableOnSubscribe<String> {
       Connection connection = factory.newConnection();
       Channel channel = connection.createChannel();
 
-      channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+      channel.exchangeDeclare(EXCHANGE_NAME, "direct", true);
       String queueName = channel.queueDeclare().getQueue();
 
       channel.queueBind(queueName, EXCHANGE_NAME, rabbitmqQueueName);

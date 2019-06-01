@@ -37,14 +37,14 @@ public class SortSave {
         () -> {
           logger.info("DONE!");
 
-          logger.info("STATS " + RabbitQueuer.statistics);
-
-          int sum = 0;
-          for (Map.Entry<String, Integer> item : RabbitQueuer.statistics.entrySet()) {
-            sum += item.getValue();
-          }
-
-          logger.info("SUM " + sum);
+//          logger.info("STATS " + RabbitQueuer.statistics);
+//
+//          int sum = 0;
+//          for (Map.Entry<String, Integer> item : RabbitQueuer.statistics.entrySet()) {
+//            sum += item.getValue();
+//          }
+//
+//          logger.info("SUM " + sum);
 
           System.exit(0);
         }
