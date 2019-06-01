@@ -13,9 +13,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network        
 
@@ -31,9 +30,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -49,9 +47,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -67,9 +64,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -85,9 +81,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -103,9 +98,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -121,9 +115,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -139,9 +132,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -157,9 +149,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network     
 
@@ -175,9 +166,8 @@ services:
       - POSTGRES_DB_NAME=rabbitsave
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=rabbitsavepass
-      - POSTGRES_BATCH_SIZE=50
-      - RX_BUFFER_SIZE=50
-      - RX_BUFFER_TIME_LIMIT=1000
+      - RX_BUFFER_SIZE=500
+      - RX_BUFFER_TIME_LIMIT=2000
     networks:
       - rabbitsave-network                                                           
 
