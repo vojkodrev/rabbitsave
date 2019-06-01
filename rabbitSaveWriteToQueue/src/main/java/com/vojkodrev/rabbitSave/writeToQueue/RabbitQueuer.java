@@ -43,7 +43,7 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 
         Connection connection = factory.newConnection();
         channel = connection.createChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, "direct", true);
+        channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 
         logger.info("CONNECTED TO RABBIT MQ");
       }

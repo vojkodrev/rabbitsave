@@ -40,7 +40,7 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
       Connection connection = factory.newConnection();
       Channel channel = connection.createChannel();
 
-      channel.exchangeDeclare(EXCHANGE_NAME, "direct", true);
+      channel.exchangeDeclare(EXCHANGE_NAME, "direct");
       String queueName = channel.queueDeclare().getQueue();
 
       channel.queueBind(queueName, EXCHANGE_NAME, rabbitmqQueueName);
