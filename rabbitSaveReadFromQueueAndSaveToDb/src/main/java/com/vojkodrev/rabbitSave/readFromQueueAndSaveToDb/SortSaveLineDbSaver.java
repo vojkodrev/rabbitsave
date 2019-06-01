@@ -23,6 +23,7 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
 
   final static Logger logger = Logger.getLogger(SortSaveLineDbSaver.class);
   static Connection connection;
+  static int saveCount;
 
   public SortSaveLineDbSaver(List<SortSaveLine> item) {
     this.list = item;
@@ -77,6 +78,8 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
       }
 
       if (list.isEmpty()) {
+        logger.info("saved " + saveCount + " items");
+        subscriber.onNext(list);
         subscriber.onComplete();
         return;
       }
@@ -87,6 +90,8 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
 //      Transaction tx = session.beginTransaction();
       for (int i = 0; i < list.size(); i++) {
         SortSaveLine ssl = list.get(i);
+
+        saveCount++;
 
         if (i > 0) {
           query.append(",");
