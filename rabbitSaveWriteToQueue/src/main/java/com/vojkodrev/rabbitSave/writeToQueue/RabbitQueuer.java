@@ -1,6 +1,9 @@
 package com.vojkodrev.rabbitSave.writeToQueue;
 
-import com.rabbitmq.client.*;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
@@ -40,7 +43,7 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 
         Connection connection = factory.newConnection();
         channel = connection.createChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, "direct", true);
+        channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 
         logger.info("CONNECTED TO RABBIT MQ");
       }
@@ -48,7 +51,7 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
       String queue = QUEUE_PREFIX + (item.matchId % rabbitmqQueueCount);
       String message = item.data;
 
-      channel.basicPublish(EXCHANGE_NAME, queue, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes("UTF-8"));
+      channel.basicPublish(EXCHANGE_NAME, queue, null, message.getBytes("UTF-8"));
 //      logger.info(" [x] Sent '" + queue + "':'" + message + "'");
 
       if (!statistics.containsKey(queue)) {
