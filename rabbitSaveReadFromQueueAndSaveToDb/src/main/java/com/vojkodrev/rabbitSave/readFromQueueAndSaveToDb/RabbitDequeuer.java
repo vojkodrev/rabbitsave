@@ -14,8 +14,7 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
 
 
   final static Logger logger = Logger.getLogger(RabbitDequeuer.class);
-  private static final String EXCHANGE_NAME = "match_events_exchange";
-  private static final String QUEUE_NAME = "match_events_queue";
+  private static final String EXCHANGE_NAME = "match_events";
 
   private static int receiveCount;
 
@@ -42,8 +41,9 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
       Channel channel = connection.createChannel();
 
       channel.exchangeDeclare(EXCHANGE_NAME, "direct", true);
-      channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-      channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, rabbitmqQueueName);
+      String queueName = channel.queueDeclare().getQueue();
+
+      channel.queueBind(queueName, EXCHANGE_NAME, rabbitmqQueueName);
 
 //      logger.info(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -63,7 +63,7 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
         }
       }, 2000, 2000);
 
-      channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+      channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
 
       logger.info("CONNECTED TO RABBITMQ");
 
