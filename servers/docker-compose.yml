@@ -5,35 +5,95 @@ services:
     image: rabbitmq
     container_name: rabbit-1
     hostname: rabbit-1
-    volumes:
-      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
     ports:
       - 50001:5672      
     networks:
-      - rabbitsave-network        
+      - rabbitsave-network      
+
 
   rabbit-2:
     image: rabbitmq
     container_name: rabbit-2
     hostname: rabbit-2
-    volumes:
-      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
     ports:
-      - 50002:5672     
+      - 50002:5672      
     networks:
-      - rabbitsave-network        
+      - rabbitsave-network  
+
 
   rabbit-3:
     image: rabbitmq
     container_name: rabbit-3
     hostname: rabbit-3
-    volumes:
-      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
     ports:
-      - 50003:5672     
+      - 50003:5672      
     networks:
-      - rabbitsave-network        
-      
+      - rabbitsave-network     
+
+  rabbit-4:
+    image: rabbitmq
+    container_name: rabbit-4
+    hostname: rabbit-4
+    ports:
+      - 50004:5672      
+    networks:
+      - rabbitsave-network     
+
+
+  rabbit-5:
+    image: rabbitmq
+    container_name: rabbit-5
+    hostname: rabbit-5
+    ports:
+      - 50005:5672      
+    networks:
+      - rabbitsave-network    
+
+  rabbit-6:
+    image: rabbitmq
+    container_name: rabbit-6
+    hostname: rabbit-6
+    ports:
+      - 50006:5672      
+    networks:
+      - rabbitsave-network      
+
+  rabbit-7:
+    image: rabbitmq
+    container_name: rabbit-7
+    hostname: rabbit-7
+    ports:
+      - 50007:5672      
+    networks:
+      - rabbitsave-network    
+
+  rabbit-8:
+    image: rabbitmq
+    container_name: rabbit-8
+    hostname: rabbit-8
+    ports:
+      - 50008:5672      
+    networks:
+      - rabbitsave-network                              
+
+  rabbit-9:
+    image: rabbitmq
+    container_name: rabbit-9
+    hostname: rabbit-9
+    ports:
+      - 50009:5672      
+    networks:
+      - rabbitsave-network   
+
+  rabbit-10:
+    image: rabbitmq
+    container_name: rabbit-10
+    hostname: rabbit-10
+    ports:
+      - 50010:5672      
+    networks:
+      - rabbitsave-network            
+
   postgres:
     image: postgres
     container_name: rabbitsave-postgres
