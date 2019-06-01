@@ -3,15 +3,9 @@ package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
 public class SortSaveLine {
 
-  @Id
-  public String id;
-
-  public long savedAt;
   public long receivedAt;
-
   public int matchId;
   public int marketId;
   public String outcomeId;
