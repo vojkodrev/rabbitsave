@@ -1,6 +1,6 @@
 CREATE DATABASE rabbitsave;
 
-USE rabbitsave;
+\c rabbitsave;
 
 CREATE TABLE public.sortsaveline (	
 	marketid int4 NOT NULL,
