@@ -7,11 +7,16 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import org.apache.log4j.Logger;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class RabbitDequeuer implements FlowableOnSubscribe<String> {
 
 
   final static Logger logger = Logger.getLogger(RabbitDequeuer.class);
   private static final String EXCHANGE_NAME = "match_events";
+
+  private static int receiveCount;
 
   public RabbitDequeuer() { }
 
@@ -43,11 +48,20 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
 //      logger.info(" [*] Waiting for messages. To exit press CTRL+C");
 
       DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+        receiveCount++;
+
         String message = new String(delivery.getBody(), "UTF-8");
 //        logger.info(" [x] Received '" + delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
 
         flowableEmitter.onNext(message);
       };
+
+      new Timer().scheduleAtFixedRate(new TimerTask() {
+        @Override
+        public void run() {
+          logger.info("rabbit receive count " + receiveCount);
+        }
+      }, 2000, 2000);
 
       channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
 
