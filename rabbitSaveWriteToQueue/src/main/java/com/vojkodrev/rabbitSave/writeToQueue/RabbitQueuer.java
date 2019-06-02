@@ -5,6 +5,7 @@ import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,20 +36,18 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 //        logger.info("creating channels");
         channels = new ArrayList<>();
 
-        List<List<Object>> rabbitmqServers = parseServers();
+        List<URI> rabbitmqServers = parseServers();
         logger.info("RABBITMQ SERVERS: " + rabbitmqServers);
 
-        for (List<Object> rabbitmqServer : rabbitmqServers) {
+        for (URI rabbitmqServer : rabbitmqServers) {
           ConnectionFactory factory = new ConnectionFactory();
-          factory.setHost((String)rabbitmqServer.get(0));
-          factory.setPort((Integer)rabbitmqServer.get(1));
+          factory.setHost(rabbitmqServer.getHost());
+          factory.setPort(rabbitmqServer.getPort());
 
           Connection connection = factory.newConnection();
           Channel channel = connection.createChannel();
           channels.add(channel);
           channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
-
-
 
 //          String message = String.join(" ", argv);
 
@@ -113,18 +112,15 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
     }
   }
 
-  private List<List<Object>> parseServers() {
+  private List<URI> parseServers() throws Throwable {
     String rabbitmqServersEnv = System.getenv("RABBITMQ_SERVERS");
 
-    Pattern pattern = Pattern.compile("(.+?):(\\d+),?");
-    Matcher matcher = pattern.matcher(rabbitmqServersEnv);
-    List<List<Object>> rabbitmqServers = new ArrayList<>();
-    matcher.results().iterator().forEachRemaining(i -> {
-      ArrayList<Object> server = new ArrayList<>();
-      server.add(i.group(1));
-      server.add(Integer.parseInt(i.group(2)));
-      rabbitmqServers.add(server);
-    });
+    List<URI> rabbitmqServers = new ArrayList<>();
+
+    for (String server : rabbitmqServersEnv.split(",")) {
+      URI uri = new URI("rmq://" + server);
+      rabbitmqServers.add(uri);
+    }
 
     return rabbitmqServers;
   }
