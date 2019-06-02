@@ -1,5 +1,6 @@
 package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.*;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
@@ -7,6 +8,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,12 +46,16 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
       channel.basicQos(1);
 
       DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-        receiveCount++;
-        String message = new String(delivery.getBody(), "UTF-8");
+        try {
+          receiveCount++;
+          String message = new String(delivery.getBody(), "UTF-8");
+
+          String[] strings = new Gson().fromJson(message, String[].class);
+          for (String s : strings) {
+            flowableEmitter.onNext(s);
+          }
 
 //        System.out.println(" [x] Received '" + message + "'");
-        try {
-          flowableEmitter.onNext(message);
         } finally {
 //          System.out.println(" [x] Done");
           channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);

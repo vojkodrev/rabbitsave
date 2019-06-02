@@ -1,118 +1,84 @@
 package com.vojkodrev.rabbitSave.writeToQueue;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.*;
+import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
-
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class RabbitQueuer implements ObservableSource<SortSaveLine> {
+public class RabbitQueuer implements ObservableSource<List<SortSaveLine>> {
 
-  private final SortSaveLine item;
+  private final List<SortSaveLine> list;
 
   final static Logger logger = Logger.getLogger(RabbitQueuer.class);
   private static final String TASK_QUEUE_NAME = "task_queue";
   private static List<Channel> channels;
   public static HashMap<Integer, Integer> statistics = new HashMap<>();
+  private static List<URI> rabbitmqServers;
 
-  public RabbitQueuer(SortSaveLine item) {
-    this.item = item;
+  public RabbitQueuer(List<SortSaveLine> list) {
+    this.list = list;
   }
 
   @Override
-  public void subscribe(Observer<? super SortSaveLine> observer) {
+  public void subscribe(Observer<? super List<SortSaveLine>> observer) {
     try {
-//      logger.info("saving");
 
-      if (channels == null) {
-//        logger.info("creating channels");
-        channels = new ArrayList<>();
+      connect();
 
-        List<URI> rabbitmqServers = parseServers();
-        logger.info("RABBITMQ SERVERS: " + rabbitmqServers);
+      Map<Integer, List<SortSaveLine>> collect = list.stream().collect(Collectors.groupingBy(i -> i.matchId % rabbitmqServers.size()));
 
-        for (URI rabbitmqServer : rabbitmqServers) {
-          ConnectionFactory factory = new ConnectionFactory();
-          factory.setHost(rabbitmqServer.getHost());
-          factory.setPort(rabbitmqServer.getPort());
+      for (Map.Entry<Integer, List<SortSaveLine>> item : collect.entrySet()) {
+        Channel channel = channels.get(item.getKey());
 
-          Connection connection = factory.newConnection();
-          Channel channel = connection.createChannel();
-          channels.add(channel);
-          channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
+        Object[] items = item.getValue().stream().map(i -> i.data).toArray();
 
-//          String message = String.join(" ", argv);
+        String json = new Gson().toJson(items);
 
-//          channel.basicPublish("", TASK_QUEUE_NAME,
-//            MessageProperties.PERSISTENT_TEXT_PLAIN,
-//            message.getBytes("UTF-8"));
-//          System.out.println(" [x] Sent '" + message + "'");
+        channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, json.getBytes("UTF-8"));
+
+        if (!statistics.containsKey(item.getKey())) {
+          statistics.put(item.getKey(), 0);
         }
 
-//        Thread.sleep(5000);
-
-        logger.info("CONNECTED TO RABBIT MQ");
+        statistics.put(item.getKey(), statistics.get(item.getKey()) + item.getValue().size());
       }
 
-
-//      if (channel == null) {
-//        String rabbitmqHost = System.getenv("RABBITMQ_HOST");
-//        int rabbitmqPort = Integer.parseInt(System.getenv("RABBITMQ_PORT"));
-//        rabbitmqQueueCount = Integer.parseInt(System.getenv("RABBITMQ_QUEUE_COUNT"));
-//
-//        logger.info("RABBITMQ HOST: " + rabbitmqHost);
-//        logger.info("RABBITMQ PORT: " + rabbitmqPort);
-//        logger.info("RABBITMQ QUEUE COUNT: " + rabbitmqQueueCount);
-//
-//        ConnectionFactory factory = new ConnectionFactory();
-//        factory.setHost(rabbitmqHost);
-//        factory.setPort(rabbitmqPort);
-//
-//        Connection connection = factory.newConnection();
-//        channel = connection.createChannel();
-//        channel.exchangeDeclare(EXCHANGE_NAME, "direct");
-//
-
-//      }
-//
-//      String queue = QUEUE_PREFIX + (item.matchId % rabbitmqQueueCount);
-//      String message = item.data;
-//
-//      channel.basicPublish(EXCHANGE_NAME, queue, null, message.getBytes("UTF-8"));
-////      logger.info(" [x] Sent '" + queue + "':'" + message + "'");
-//
-
-      int channelNum = item.matchId % channels.size();
-      Channel channel = channels.get(channelNum);
-
-//      logger.info("line sent");
-      channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, item.data.getBytes("UTF-8"));
-//      Thread.sleep(10);
-
-//      logger.info(" [x] Sent '" + item.data + "'");
-
-      if (!statistics.containsKey(channelNum)) {
-        statistics.put(channelNum, 0);
-      }
-
-      statistics.put(channelNum, statistics.get(channelNum) + 1);
-
-      observer.onNext(item);
+      observer.onNext(list);
       observer.onComplete();
     } catch (Throwable t) {
       observer.onError(t);
     }
   }
 
-  private List<URI> parseServers() throws Throwable {
+  private static void connect() throws Throwable {
+    if (channels == null) {
+      channels = new ArrayList<>();
+
+      rabbitmqServers = parseServers();
+      logger.info("RABBITMQ SERVERS: " + rabbitmqServers);
+
+      for (URI rabbitmqServer : rabbitmqServers) {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost(rabbitmqServer.getHost());
+        factory.setPort(rabbitmqServer.getPort());
+
+        Connection connection = factory.newConnection();
+        Channel channel = connection.createChannel();
+        channels.add(channel);
+        channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
+      }
+
+      logger.info("CONNECTED TO RABBIT MQ");
+    }
+  }
+
+  private static List<URI> parseServers() throws Throwable {
     String rabbitmqServersEnv = System.getenv("RABBITMQ_SERVERS");
 
     List<URI> rabbitmqServers = new ArrayList<>();
