@@ -9,7 +9,7 @@ import org.reactivestreams.Subscriber;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SortSaveRegexParser implements Publisher<SortSaveLine> {
+public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
 
   final static Logger logger = Logger.getLogger(SortSaveRegexParser.class);
   private static final Pattern pattern = Pattern.compile("'.+?(\\d+?)'\\|(\\d+?)\\|'(.+?)'\\|('(.+?)')?\\|(\\d+)");
@@ -20,12 +20,12 @@ public class SortSaveRegexParser implements Publisher<SortSaveLine> {
   }
 
   @Override
-  public void subscribe(Subscriber<? super SortSaveLine> subscriber) {
+  public void subscribe(Observer<? super SortSaveLine> observer) {
 
     Matcher matcher = pattern.matcher(line);
 
     if (!matcher.find()) {
-      subscriber.onError(new Exception("Unable to parse \"" + line + "\"!"));
+      observer.onError(new Exception("Unable to parse \"" + line + "\"!"));
       return;
     }
 
@@ -41,9 +41,8 @@ public class SortSaveRegexParser implements Publisher<SortSaveLine> {
       specifiers,
       Long.parseLong(matcher.group(6)));
 
-//    logger.info("parsed item " + sortSaveLine);
 
-    subscriber.onNext(sortSaveLine);
-    subscriber.onComplete();
+    observer.onNext(sortSaveLine);
+    observer.onComplete();
   }
 }

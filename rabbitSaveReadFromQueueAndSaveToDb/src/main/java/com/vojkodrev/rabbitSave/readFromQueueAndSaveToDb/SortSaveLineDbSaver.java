@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
+public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>> {
 
   private final List<SortSaveLine> list;
 
@@ -32,14 +32,14 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
   }
 
   @Override
-  public void subscribe(Subscriber<? super List<SortSaveLine>> subscriber) {
+  public void subscribe(Observer<? super List<SortSaveLine>> observer) {
     try {
 
       connect();
 
       if (list.isEmpty()) {
-        subscriber.onNext(list);
-        subscriber.onComplete();
+        observer.onNext(list);
+        observer.onComplete();
         return;
       }
 
@@ -67,11 +67,11 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
 
       preparedStatement.executeUpdate();
 
-      subscriber.onNext(list);
-      subscriber.onComplete();
+      observer.onNext(list);
+      observer.onComplete();
 
     } catch (Throwable t) {
-      subscriber.onError(t);
+      observer.onError(t);
     }
 
   }
