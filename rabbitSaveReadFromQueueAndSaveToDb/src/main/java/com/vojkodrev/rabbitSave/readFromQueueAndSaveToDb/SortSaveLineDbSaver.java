@@ -13,6 +13,8 @@ import org.reactivestreams.Subscriber;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -33,52 +35,9 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
   public void subscribe(Subscriber<? super List<SortSaveLine>> subscriber) {
     try {
 
-      if (connection == null) {
-        String username = System.getenv("POSTGRES_USERNAME");
-
-        String connectionString = "jdbc:postgresql://"
-          + System.getenv("POSTGRES_HOST")
-          + ":" + System.getenv("POSTGRES_PORT")
-          + "/" + System.getenv("POSTGRES_DB_NAME");
-
-        logger.info("POSTGRESS CONNECTION STRING: " + connectionString);
-        logger.info("POSTGRESS USERNAME: " + username);
-
-        connection = DriverManager.getConnection(connectionString, username, System.getenv("POSTGRES_PASSWORD"));
-
-//        Properties settings = new Properties();
-//        settings.put(Environment.DRIVER, "org.postgresql.Driver");
-//
-//        settings.put(Environment.URL, "jdbc:postgresql://" +
-//          System.getenv("POSTGRES_HOST") + ":" +
-//          System.getenv("POSTGRES_PORT") + "/" +
-//          System.getenv("POSTGRES_DB_NAME"));
-//
-//        settings.put(Environment.USER, System.getenv("POSTGRES_USERNAME"));
-//        settings.put(Environment.PASS, System.getenv("POSTGRES_PASSWORD"));
-//        settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
-//        settings.put(Environment.SHOW_SQL, "false");
-//        settings.put(Environment.STATEMENT_BATCH_SIZE, System.getenv("POSTGRES_BATCH_SIZE"));
-//        settings.put(Environment.HBM2DDL_AUTO, "update");
-//
-//        AnnotationConfiguration configuration = new AnnotationConfiguration();
-//        configuration.setProperties(settings);
-//        configuration.addAnnotatedClass(SortSaveLine.class);
-//
-//        SessionFactory sessionFactory = configuration.buildSessionFactory();
-//        session = sessionFactory.openSession();
-//
-        logger.info("CONNECTED TO POSTGRES");
-//
-//  //      logger.info("RUNNING TEST QUERY");
-//  //
-//  //      List list = session.createCriteria(SortSaveLine.class).list();
-//  //      logger.info("retrieved " + list.size() + " sort save lines");
-
-      }
+      connect();
 
       if (list.isEmpty()) {
-        // logger.info("saved " + saveCount + " items");
         subscriber.onNext(list);
         subscriber.onComplete();
         return;
@@ -86,43 +45,27 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
 
       StringBuilder query = new StringBuilder("INSERT INTO sortsaveline (marketid, matchid, outcomeid, receivedat, savedat, specifiers) VALUES ");
 
-//      logger.info("saving " + list.size() + " lines");
-//      Transaction tx = session.beginTransaction();
       for (int i = 0; i < list.size(); i++) {
-        SortSaveLine ssl = list.get(i);
-
-        saveCount++;
-
         if (i > 0) {
           query.append(",");
         }
 
-        query
-          .append("(")
-          .append(ssl.marketId)
-          .append(",")
-          .append(ssl.matchId)
-          .append(",'")
-          .append(ssl.outcomeId)
-          .append("',")
-          .append(ssl.receivedAt)
-          .append(",")
-          .append(System.currentTimeMillis())
-          .append(",'")
-          .append(ssl.specifiers)
-          .append("')");
-
-//        ssl.savedAt = System.currentTimeMillis();
-//        ssl.id = UUID.randomUUID().toString();
-//        session.save(ssl);
+        query.append("(?,?,?,?,?,?)");
       }
-//      tx.commit();
 
-//      logger.info(query);
+      PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
 
-      connection.createStatement().executeUpdate(query.toString());
-//      logger.info();
+      for (int i = 0; i < list.size(); i++) {
+        SortSaveLine ssl = list.get(i);
+        preparedStatement.setInt(1 + 6 * i, ssl.marketId);
+        preparedStatement.setInt(2 + 6 * i, ssl.matchId);
+        preparedStatement.setString(3 + 6 * i, ssl.outcomeId);
+        preparedStatement.setLong(4 + 6 * i, ssl.receivedAt);
+        preparedStatement.setLong(5 + 6 * i, System.currentTimeMillis());
+        preparedStatement.setString(6 + 6 * i, ssl.specifiers);
+      }
 
+      preparedStatement.executeUpdate();
 
       subscriber.onNext(list);
       subscriber.onComplete();
@@ -131,5 +74,23 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
       subscriber.onError(t);
     }
 
+  }
+
+  private void connect() throws SQLException {
+    if (connection == null) {
+      String username = System.getenv("POSTGRES_USERNAME");
+
+      String connectionString = "jdbc:postgresql://"
+        + System.getenv("POSTGRES_HOST")
+        + ":" + System.getenv("POSTGRES_PORT")
+        + "/" + System.getenv("POSTGRES_DB_NAME");
+
+      logger.info("POSTGRESS CONNECTION STRING: " + connectionString);
+      logger.info("POSTGRESS USERNAME: " + username);
+
+      connection = DriverManager.getConnection(connectionString, username, System.getenv("POSTGRES_PASSWORD"));
+
+      logger.info("CONNECTED TO POSTGRES");
+    }
   }
 }
