@@ -7,7 +7,7 @@ services:
     environment:
       - RABBITMQ_SERVERS=rabbit-0:5672,rabbit-1:5672,rabbit-2:5672,rabbit-3:5672,rabbit-4:5672,rabbit-5:5672,rabbit-6:5672,rabbit-7:5672,rabbit-8:5672,rabbit-9:5672
       - INPUT_FILE=fo_random.txt
-      - RX_BUFFER_SIZE=1000;
+      - RX_BUFFER_SIZE=1000
       - RX_BUFFER_TIME_LIMIT=250
     networks:
       - rabbitsave-network        

@@ -78,7 +78,7 @@ public class SortSaveLineDbSaver implements Publisher<List<SortSaveLine>> {
       }
 
       if (list.isEmpty()) {
-        logger.info("saved " + saveCount + " items");
+        // logger.info("saved " + saveCount + " items");
         subscriber.onNext(list);
         subscriber.onComplete();
         return;

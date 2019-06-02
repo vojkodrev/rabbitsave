@@ -67,12 +67,12 @@ public class RabbitDequeuer implements FlowableOnSubscribe<String> {
       });
 
 
-      new Timer().scheduleAtFixedRate(new TimerTask() {
-        @Override
-        public void run() {
-          logger.info("rabbit receive count " + receiveCount);
-        }
-      }, 2000, 2000);
+      // new Timer().scheduleAtFixedRate(new TimerTask() {
+      //   @Override
+      //   public void run() {
+      //     logger.info("rabbit receive count " + receiveCount);
+      //   }
+      // }, 2000, 2000);
 
 
 
