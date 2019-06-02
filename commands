@@ -44,8 +44,12 @@ docker rm --force rabbit-1 rabbit-2 rabbit-3 rabbit-4 rabbit-5
 
 docker kill $(docker ps -q); docker rm $(docker ps -a -q)
 
+docker compose up --build
+
 ip a
 ss -lntu
+
+chown -R vojko:vojko ..
 
 iptables -N TCP
 iptables -A TCP -p tcp --dport 50001 -j ACCEPT
