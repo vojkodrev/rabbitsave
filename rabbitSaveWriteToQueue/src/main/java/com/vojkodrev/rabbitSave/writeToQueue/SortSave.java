@@ -1,17 +1,12 @@
 package com.vojkodrev.rabbitSave.writeToQueue;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.schedulers.Schedulers;
 import org.apache.log4j.Logger;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 public class SortSave {
@@ -19,7 +14,7 @@ public class SortSave {
 
 
 
-  public static void main(String [] args)
+  public static void main(String [] args) throws Throwable
   {
 
     // RX_BUFFER_SIZE=1000;RX_BUFFER_TIME_LIMIT=250;RABBITMQ_SERVERS=192.168.1.127:50000,192.168.1.127:50001,192.168.1.127:50002,192.168.1.127:50003,192.168.1.127:50004,192.168.1.127:50005,192.168.1.127:50006,192.168.1.127:50007,192.168.1.127:50008,192.168.1.127:50009;INPUT_FILE=fo_random.txt
@@ -31,15 +26,18 @@ public class SortSave {
     logger.info("RX BUFFER TIME LIMIT: " + bufferTimeLimit);
 
     String inputFile = System.getenv("INPUT_FILE");
-
     logger.info("INPUT FILE: " + inputFile);
+
+    List<URI> rabbitmqServers = parseRabbitMQServers();
+    logger.info("RABBITMQ SERVERS: " + rabbitmqServers);
 
     Observable
       .create(new FileLineReader(inputFile))
       .skip(1)
       .flatMap(SortSaveRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
-      .flatMap(RabbitQueuer::new)
+      .flatMap(list -> new SortSaveGroupByMatchIdAndJson(list, rabbitmqServers))
+      .flatMap(entry -> new SortSaveRabbitQueuer(entry, rabbitmqServers))
       .subscribe(
         item -> {
         },
@@ -48,21 +46,24 @@ public class SortSave {
         },
         () -> {
           logger.info("DONE!");
-
-          logger.info("STATS " + RabbitQueuer.statistics);
-
-          int sum = 0;
-          for (Map.Entry<Integer, Integer> item : RabbitQueuer.statistics.entrySet()) {
-            sum += item.getValue();
-          }
-
-          logger.info("SUM " + sum);
-
           System.exit(0);
         }
       );
 
 
+  }
+
+  private static List<URI> parseRabbitMQServers() throws Throwable {
+    String rabbitmqServersEnv = System.getenv("RABBITMQ_SERVERS");
+
+    List<URI> rabbitmqServers = new ArrayList<>();
+
+    for (String server : rabbitmqServersEnv.split(",")) {
+      URI uri = new URI("rmq://" + server);
+      rabbitmqServers.add(uri);
+    }
+
+    return rabbitmqServers;
   }
 }
 
