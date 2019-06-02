@@ -27,13 +27,10 @@ public class SortSave {
 //    logger.info("START!");
 
     Flowable.create(new RabbitDequeuer(), BackpressureStrategy.BUFFER)
-      .subscribeOn(Schedulers.computation())
       .flatMap(SortSaveRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
       .flatMap(SortSaveLineDbSaver::new)
-//      .take(10)
-//      .flatMap(RabbitQueuer::new)
-      .blockingSubscribe(
+      .subscribe(
         item -> {
 //          logger.info(item);
         },
