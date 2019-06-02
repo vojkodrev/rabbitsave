@@ -29,8 +29,10 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
   @Override
   public void subscribe(Observer<? super SortSaveLine> observer) {
     try {
+//      logger.info("saving");
 
       if (channels == null) {
+//        logger.info("creating channels");
         channels = new ArrayList<>();
 
         List<List<Object>> rabbitmqServers = parseServers();
@@ -46,6 +48,8 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
           channels.add(channel);
           channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
 
+
+
 //          String message = String.join(" ", argv);
 
 //          channel.basicPublish("", TASK_QUEUE_NAME,
@@ -53,6 +57,10 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 //            message.getBytes("UTF-8"));
 //          System.out.println(" [x] Sent '" + message + "'");
         }
+
+//        Thread.sleep(5000);
+
+        logger.info("CONNECTED TO RABBIT MQ");
       }
 
 
@@ -73,7 +81,7 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
 //        channel = connection.createChannel();
 //        channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 //
-//        logger.info("CONNECTED TO RABBIT MQ");
+
 //      }
 //
 //      String queue = QUEUE_PREFIX + (item.matchId % rabbitmqQueueCount);
@@ -86,9 +94,11 @@ public class RabbitQueuer implements ObservableSource<SortSaveLine> {
       int channelNum = item.matchId % channels.size();
       Channel channel = channels.get(channelNum);
 
+//      logger.info("line sent");
       channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, item.data.getBytes("UTF-8"));
+//      Thread.sleep(10);
 
-//      System.out.println(" [x] Sent '" + item.data + "'");
+//      logger.info(" [x] Sent '" + item.data + "'");
 
       if (!statistics.containsKey(channelNum)) {
         statistics.put(channelNum, 0);

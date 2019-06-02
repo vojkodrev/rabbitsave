@@ -7,6 +7,7 @@ import com.rabbitmq.client.DeliverCallback;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
@@ -26,12 +27,13 @@ public class SortSave {
 //    logger.info("START!");
 
     Flowable.create(new RabbitDequeuer(), BackpressureStrategy.BUFFER)
+      .subscribeOn(Schedulers.computation())
       .flatMap(SortSaveRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
       .flatMap(SortSaveLineDbSaver::new)
 //      .take(10)
 //      .flatMap(RabbitQueuer::new)
-      .subscribe(
+      .blockingSubscribe(
         item -> {
 //          logger.info(item);
         },

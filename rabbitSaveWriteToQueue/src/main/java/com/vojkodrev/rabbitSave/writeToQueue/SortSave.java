@@ -4,9 +4,11 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 public class SortSave {
@@ -27,11 +29,13 @@ public class SortSave {
 
     Observable
       .create(new FileLineReader(inputFile))
+      .subscribeOn(Schedulers.computation())
       .skip(1)
+//      .take(50)
       .flatMap(SortSaveRegexParser::new)
-//      .take(10)
+//      .delay(100, TimeUnit.MILLISECONDS)
       .flatMap(RabbitQueuer::new)
-      .subscribe(
+      .blockingSubscribe(
         item -> {
         },
         error -> {

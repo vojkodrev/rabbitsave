@@ -14,6 +14,7 @@ public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
 
   private static final Pattern pattern = Pattern.compile("\\d+");
   private final String line;
+  final static Logger logger = Logger.getLogger(SortSaveRegexParser.class);
 
   public SortSaveRegexParser(String line) {
     this.line = line;
@@ -22,6 +23,7 @@ public class SortSaveRegexParser implements ObservableSource<SortSaveLine> {
   @Override
   public void subscribe(Observer<? super SortSaveLine> observer) {
 
+//    logger.info("line parsed");
     Matcher matcher = pattern.matcher(line);
 
     if (!matcher.find()) {
