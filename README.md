@@ -77,6 +77,7 @@ data stream (file) --> write to queue app --> splits data by match id *     --> 
 ```
 
 &ast; Write to queue app combines lines into packages (json format) of 1000 (configurable) and then sends it to a correct queue. This is because if you send lines 1 by 1 to queue message loss will occur in the RabbitMQ.
+Check commits from b59f1a7 to fc8c383 where I tried to solve this problems in different ways (different sql lib, remove rabbit clustering, run in different threads ...)
 
 ## Timings [ms]
 
