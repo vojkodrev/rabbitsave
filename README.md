@@ -51,6 +51,31 @@ Default username is postgres and password is rabbitsavepass. Database is rabbits
 
 Rabbits are running on the port range 50000:50009.
 
+## Architecture
+
+```
+data stream (file) --> write to queue app --> splits data by match id       --> rabbitmq queue 0     -->   read from queue write to database app
+                                              match id % number of queues   
+                                                                            --> rabbitmq queue 1     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 2     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 3     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 4     -->   read from queue write to database app
+                                                                                                                                                        --> postgres db
+                                                                            --> rabbitmq queue 5     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 6     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 7     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 8     -->   read from queue write to database app
+
+                                                                            --> rabbitmq queue 9     -->   read from queue write to database app
+                                                                            
+```
+
 ## Timings [ms]
 
 ### Max diff
