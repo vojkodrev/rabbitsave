@@ -87,6 +87,20 @@ avg_diff             |
 
 ## Entry ordering in Postgres
 
+### Entry count
+
+```
+select count(*) from entry
+```
+
+```
+count |
+------|
+302536|
+```
+
+### Order
+
 ```
 select matchid, marketid, outcomeid, specifiers
 from entry
