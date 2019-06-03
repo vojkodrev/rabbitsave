@@ -1,20 +1,17 @@
 package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 
-import com.google.gson.Gson;
 import com.rabbitmq.client.*;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import org.apache.log4j.Logger;
 
-public class SortSaveRabbitDequeuer implements ObservableOnSubscribe<String> {
+public class RabbitDequeuer implements ObservableOnSubscribe<String> {
 
 
-  final static Logger logger = Logger.getLogger(SortSaveRabbitDequeuer.class);
+  final static Logger logger = Logger.getLogger(RabbitDequeuer.class);
   private static final String TASK_QUEUE_NAME = "task_queue";
 
-  public SortSaveRabbitDequeuer() { }
+  public RabbitDequeuer() { }
 
   @Override
   public void subscribe(ObservableEmitter<String> observableEmitter) throws Exception {

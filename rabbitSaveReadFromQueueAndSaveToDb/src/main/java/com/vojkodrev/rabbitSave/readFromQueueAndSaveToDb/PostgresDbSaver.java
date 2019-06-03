@@ -3,36 +3,27 @@ package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Environment;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Properties;
-import java.util.UUID;
 
-public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>> {
+public class PostgresDbSaver implements ObservableSource<List<Line>> {
 
-  private final List<SortSaveLine> list;
+  private final List<Line> list;
 
-  final static Logger logger = Logger.getLogger(SortSaveLineDbSaver.class);
+  final static Logger logger = Logger.getLogger(PostgresDbSaver.class);
   static Connection connection;
   static int saveCount;
 
-  public SortSaveLineDbSaver(List<SortSaveLine> item) {
+  public PostgresDbSaver(List<Line> item) {
     this.list = item;
   }
 
   @Override
-  public void subscribe(Observer<? super List<SortSaveLine>> observer) {
+  public void subscribe(Observer<? super List<Line>> observer) {
     try {
 
       connect();
@@ -43,7 +34,7 @@ public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>>
         return;
       }
 
-      StringBuilder query = new StringBuilder("INSERT INTO sortsaveline (marketid, matchid, outcomeid, receivedat, savedat, specifiers) VALUES ");
+      StringBuilder query = new StringBuilder("INSERT INTO entry (marketid, matchid, outcomeid, receivedat, savedat, specifiers) VALUES ");
 
       for (int i = 0; i < list.size(); i++) {
         if (i > 0) {
@@ -56,7 +47,7 @@ public class SortSaveLineDbSaver implements ObservableSource<List<SortSaveLine>>
       PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
 
       for (int i = 0; i < list.size(); i++) {
-        SortSaveLine ssl = list.get(i);
+        Line ssl = list.get(i);
         preparedStatement.setInt(1 + 6 * i, ssl.marketId);
         preparedStatement.setInt(2 + 6 * i, ssl.matchId);
         preparedStatement.setString(3 + 6 * i, ssl.outcomeId);

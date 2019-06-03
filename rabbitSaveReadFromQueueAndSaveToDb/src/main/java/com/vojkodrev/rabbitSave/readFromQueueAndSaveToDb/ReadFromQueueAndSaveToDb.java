@@ -1,14 +1,12 @@
 package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
 
-public class SortSave {
-  final static Logger logger = Logger.getLogger(SortSave.class);
+public class ReadFromQueueAndSaveToDb {
+  final static Logger logger = Logger.getLogger(ReadFromQueueAndSaveToDb.class);
 
   public static void main(String [] args)
   {
@@ -21,11 +19,11 @@ public class SortSave {
     logger.info("RX BUFFER TIME LIMIT: " + bufferTimeLimit);
 
     Observable
-      .create(new SortSaveRabbitDequeuer())
-      .flatMap(SortSaveRabbitJsonParser::new)
-      .flatMap(SortSaveRegexParser::new)
+      .create(new RabbitDequeuer())
+      .flatMap(RabbitMessageJsonParser::new)
+      .flatMap(LineRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
-      .flatMap(SortSaveLineDbSaver::new)
+      .flatMap(PostgresDbSaver::new)
       .subscribe(
         item -> {
         },

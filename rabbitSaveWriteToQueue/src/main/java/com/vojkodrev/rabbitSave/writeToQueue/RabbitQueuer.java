@@ -1,25 +1,23 @@
 package com.vojkodrev.rabbitSave.writeToQueue;
 
-import com.google.gson.Gson;
 import com.rabbitmq.client.*;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import org.apache.log4j.Logger;
 import java.net.URI;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class SortSaveRabbitQueuer implements ObservableSource<Map.Entry<Integer, String>> {
+public class RabbitQueuer implements ObservableSource<Map.Entry<Integer, String>> {
 
   private final Map.Entry<Integer, String> entry;
   private List<URI> rabbitmqServers;
 
-  final static Logger logger = Logger.getLogger(SortSaveRabbitQueuer.class);
+  final static Logger logger = Logger.getLogger(RabbitQueuer.class);
   private static final String TASK_QUEUE_NAME = "task_queue";
   private static List<Channel> channels;
 
 
-  public SortSaveRabbitQueuer(Map.Entry<Integer, String> entry, List<URI> rabbitmqServers) {
+  public RabbitQueuer(Map.Entry<Integer, String> entry, List<URI> rabbitmqServers) {
 
     this.entry = entry;
     this.rabbitmqServers = rabbitmqServers;

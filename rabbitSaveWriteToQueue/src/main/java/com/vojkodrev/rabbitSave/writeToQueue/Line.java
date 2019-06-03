@@ -1,14 +1,14 @@
 package com.vojkodrev.rabbitSave.writeToQueue;
 
-public class SortSaveLine {
+public class Line {
 
   public int matchId;
   public String data;
 
-  public SortSaveLine() {
+  public Line() {
   }
 
-  public SortSaveLine(int matchId, String data) {
+  public Line(int matchId, String data) {
     this.matchId = matchId;
     this.data = data;
   }

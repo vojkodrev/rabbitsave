@@ -6,11 +6,10 @@ import org.apache.log4j.Logger;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class SortSave {
-  final static Logger logger = Logger.getLogger(SortSave.class);
+public class WriteToQueue {
+  final static Logger logger = Logger.getLogger(WriteToQueue.class);
 
 
 
@@ -34,10 +33,10 @@ public class SortSave {
     Observable
       .create(new FileLineReader(inputFile))
       .skip(1)
-      .flatMap(SortSaveRegexParser::new)
+      .flatMap(LineRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
-      .flatMap(list -> new SortSaveGroupByMatchIdAndJson(list, rabbitmqServers))
-      .flatMap(entry -> new SortSaveRabbitQueuer(entry, rabbitmqServers))
+      .flatMap(list -> new GroupByMatchIdAndJson(list, rabbitmqServers))
+      .flatMap(entry -> new RabbitQueuer(entry, rabbitmqServers))
       .subscribe(
         item -> {
         },

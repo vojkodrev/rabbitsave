@@ -76,7 +76,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb.SortSave</mainClass>
+							<mainClass>com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb.ReadFromQueueAndSaveToDb</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

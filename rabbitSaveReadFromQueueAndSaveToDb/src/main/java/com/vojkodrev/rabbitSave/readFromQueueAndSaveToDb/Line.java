@@ -3,7 +3,7 @@ package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 import javax.persistence.*;
 import java.util.Date;
 
-public class SortSaveLine {
+public class Line {
 
   public long receivedAt;
   public int matchId;
@@ -11,10 +11,10 @@ public class SortSaveLine {
   public String outcomeId;
   public String specifiers;
 
-  public SortSaveLine() {
+  public Line() {
   }
 
-  public SortSaveLine(int matchId, int marketId, String outcomeId, String specifiers, long receivedAt) {
+  public Line(int matchId, int marketId, String outcomeId, String specifiers, long receivedAt) {
     this.matchId = matchId;
     this.marketId = marketId;
     this.outcomeId = outcomeId;

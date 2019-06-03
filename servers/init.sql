@@ -2,10 +2,10 @@ CREATE DATABASE rabbitsave;
 
 \c rabbitsave;
 
-CREATE SEQUENCE sortsaveline_id_seq;
+CREATE SEQUENCE entry_id_seq;
 
-CREATE TABLE public.sortsaveline (	
-  id int4 NOT NULL DEFAULT nextval('sortsaveline_id_seq') PRIMARY KEY,
+CREATE TABLE public.entry (	
+  id int4 NOT NULL DEFAULT nextval('entry_id_seq') PRIMARY KEY,
 	marketid int4 NOT NULL,
 	matchid int4 NOT NULL,
 	outcomeid varchar(255) NULL,
@@ -14,4 +14,4 @@ CREATE TABLE public.sortsaveline (
 	specifiers varchar(255) NULL
 );
 
-ALTER SEQUENCE sortsaveline_id_seq OWNED BY public.sortsaveline.id;
+ALTER SEQUENCE entry_id_seq OWNED BY public.entry.id;
