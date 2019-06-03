@@ -21,17 +21,17 @@ cd servers
 docker-compose up
 ```
 
-### Start Write to Queue process
-
-```
-cd rabbitSaveWriteToQueue
-docker-compose up --build
-```
-
 ### Start Read from Queue write to Db process
 
 ```
 cd rabbitSaveReadFromQueueAndSaveToDb
+docker-compose up --build
+```
+
+### Start Write to Queue process
+
+```
+cd rabbitSaveWriteToQueue
 docker-compose up --build
 ```
 
