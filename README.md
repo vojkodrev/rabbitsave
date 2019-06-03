@@ -51,7 +51,7 @@ Default username is postgres and password is rabbitsavepass. Database is rabbits
 
 Rabbits are running on the port range 50000:50009.
 
-## Timings
+## Timings [ms]
 
 ### Max diff
 
