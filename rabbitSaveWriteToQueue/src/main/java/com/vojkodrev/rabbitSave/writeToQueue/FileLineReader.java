@@ -25,12 +25,10 @@ public class FileLineReader implements ObservableOnSubscribe<String> {
   @Override
   public void subscribe(ObservableEmitter<String> observableEmitter) throws Exception {
     try {
-//      logger.info("reading file");
       String line;
       BufferedReader bufferreader = new BufferedReader(new FileReader(filename));
 
       while ((line = bufferreader.readLine()) != null) {
-//        logger.info("line read");
         observableEmitter.onNext(line);
       }
 

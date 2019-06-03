@@ -1,8 +1,5 @@
 package com.vojkodrev.rabbitSave.readFromQueueAndSaveToDb;
 
-import javax.persistence.*;
-import java.util.Date;
-
 public class Line {
 
   public long receivedAt;

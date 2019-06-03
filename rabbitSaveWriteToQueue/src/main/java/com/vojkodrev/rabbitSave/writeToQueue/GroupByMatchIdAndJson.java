@@ -33,7 +33,7 @@ public class GroupByMatchIdAndJson implements ObservableSource<Map.Entry<Integer
         Object[] items = item.getValue().stream().map(i -> i.data).toArray();
         String json = new Gson().toJson(items);
 
-        observer.onNext(new Map.Entry<Integer, String>() {
+        observer.onNext(new Map.Entry<>() {
           @Override
           public Integer getKey() {
             return key;

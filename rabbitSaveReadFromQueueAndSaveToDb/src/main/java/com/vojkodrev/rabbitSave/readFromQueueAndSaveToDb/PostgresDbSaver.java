@@ -16,7 +16,6 @@ public class PostgresDbSaver implements ObservableSource<List<Line>> {
 
   final static Logger logger = Logger.getLogger(PostgresDbSaver.class);
   static Connection connection;
-  static int saveCount;
 
   public PostgresDbSaver(List<Line> item) {
     this.list = item;

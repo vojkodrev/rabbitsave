@@ -20,7 +20,6 @@ public class LineRegexParser implements ObservableSource<Line> {
   @Override
   public void subscribe(Observer<? super Line> observer) {
 
-//    logger.info("line parsed");
     Matcher matcher = pattern.matcher(this.line);
 
     if (!matcher.find()) {
