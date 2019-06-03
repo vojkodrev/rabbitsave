@@ -4,7 +4,7 @@ Project that saves data from a text file to a Postgres database as soon as possi
 
 ## Getting Started
 
-This are instructions on how to start the application.
+This are instructions on how to start and use the application.
 
 ### Prerequisites
 
