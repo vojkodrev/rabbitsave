@@ -83,7 +83,9 @@ Check commits from b59f1a7 to fc8c383 where I tried to solve this problems in di
 ## Timings [ms]
 
 All timings were done on a Virtual box VM with Manjaro Linux and Windows 10 as host.
+
 4GB of ram
+
 Intel I7 6700K CPU @ 4.00 GHz (4 cores allocated to VM)
 
 
