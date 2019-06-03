@@ -54,10 +54,10 @@ Rabbits are running on the port range 50000:50009.
 ## Architecture
 
 ```
-data stream (file) --> write to queue app --> splits data by match id       --> rabbitmq queue 0     -->   read from queue write to database app
+data stream (file) --> write to queue app --> splits data by match id *     --> rabbitmq queue 0     -->   read from queue write to database app
                                               match id % number of queues   
                                                                             --> rabbitmq queue 1     -->   read from queue write to database app
-
+                                          
                                                                             --> rabbitmq queue 2     -->   read from queue write to database app
 
                                                                             --> rabbitmq queue 3     -->   read from queue write to database app
@@ -75,6 +75,8 @@ data stream (file) --> write to queue app --> splits data by match id       --> 
                                                                             --> rabbitmq queue 9     -->   read from queue write to database app
                                                                             
 ```
+
+&ast; Write to queue app combines lines into packages (json format) of 1000 (configurable) and then sends it to a correct queue. This is because if you send lines 1 by 1 to queue message loss will occur in the RabbitMQ.
 
 ## Timings [ms]
 
