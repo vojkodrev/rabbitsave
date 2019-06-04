@@ -45,7 +45,7 @@ docker exec mongo-shard-2-1 mongo --host localhost --port 27018 /usr/local/mongo
 ```
 cd servers/mongodb/mongos
 docker-compose up
-docker exec mongos-1 mongo --host localhost --port 27017 /usr/local/mongos-init/init.js
+docker exec mongos-1 mongo rabbitsave --host localhost --port 27017 /usr/local/mongos-init/init.js
 ```
 
 ### Start Read from Queue write to Db process

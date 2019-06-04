@@ -69,7 +69,7 @@ docker exec mongo-config-1 mongo --host localhost --port 27019 /usr/local/mongo-
 docker exec mongo-shard-1-1 mongo --host localhost --port 27018 /usr/local/mongo-shard-init/init.js
 docker exec mongo-shard-2-1 mongo --host localhost --port 27018 /usr/local/mongo-shard-init/init.js
 
-docker exec mongos-1 mongo --host localhost --port 27017 /usr/local/mongos-init/init.js
+docker exec mongos-1 mongo rabbitsave --host localhost --port 27017 /usr/local/mongos-init/init.js
 
 docker exec -it mongo-shard-1-1 mongo --host localhost --port 27018
 docker exec -it mongo-config-1 mongo --host localhost --port 27019
