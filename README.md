@@ -14,11 +14,38 @@ Docker
 
 ## Running
 
-### Start RabbitMQ and Postgres servers
+### Start RabbitMQ
 
 ```
-cd servers
+cd servers/rabbitmq
 docker-compose up
+```
+
+### Start MongoDB
+
+#### Config replica set
+
+```
+cd servers/mongodb/configReplicaSet
+docker-compose up
+docker exec mongo-config-1 mongo --host localhost --port 27019 /usr/local/mongo-config-init/init.js
+```
+
+#### Shard replica set
+
+```
+cd servers/mongodb/shardReplicaSet
+docker-compose up
+docker exec mongo-shard-1-1 mongo --host localhost --port 27018 /usr/local/mongo-shard-init/init.js
+docker exec mongo-shard-2-1 mongo --host localhost --port 27018 /usr/local/mongo-shard-init/init.js
+```
+
+#### Mongos
+
+```
+cd servers/mongodb/mongos
+docker-compose up
+docker exec mongos-1 mongo --host localhost --port 27017 /usr/local/mongos-init/init.js
 ```
 
 ### Start Read from Queue write to Db process
