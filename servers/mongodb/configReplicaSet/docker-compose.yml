@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+
+  mongo-config-1:
+    image: mongo
+    container_name: mongo-config-1
+    hostname: mongo-config-1
+    volumes:
+      - ./ConfigServerReplicaSet.config:/etc/mongo/ConfigServerReplicaSet.config
+      - ./init.js:/usr/local/mongo-config-init/init.js
+    command: --config /etc/mongo/ConfigServerReplicaSet.config
+    networks:
+      - rabbitsave-network     
+
+  mongo-config-2:
+    image: mongo
+    container_name: mongo-config-2
+    hostname: mongo-config-2
+    volumes:
+      - ./ConfigServerReplicaSet.config:/etc/mongo/ConfigServerReplicaSet.config
+    command: --config /etc/mongo/ConfigServerReplicaSet.config
+    networks:
+      - rabbitsave-network  
+
+  mongo-config-3:
+    image: mongo
+    container_name: mongo-config-3
+    hostname: mongo-config-3
+    volumes:
+      - ./ConfigServerReplicaSet.config:/etc/mongo/ConfigServerReplicaSet.config
+    command: --config /etc/mongo/ConfigServerReplicaSet.config
+    networks:
+      - rabbitsave-network     
+
+      
+
+
+
+networks:
+  rabbitsave-network:
+    name: rabbitsave-network

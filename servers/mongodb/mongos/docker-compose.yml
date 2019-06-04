@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+
+  mongos-1:
+    image: mongo
+    container_name: mongos-1
+    hostname: mongos-1
+    volumes:
+      - ./mongos.config:/etc/mongo/mongos.config
+      - ./init.js:/usr/local/mongos-init/init.js
+    entrypoint: mongos
+    command: --config /etc/mongo/mongos.config
+    networks:
+      - rabbitsave-network           
+
+
+
+networks:
+  rabbitsave-network:
+    name: rabbitsave-network

@@ -43,6 +43,10 @@ docker rm --force rabbit-1 rabbit-2 rabbit-3 rabbit-4 rabbit-5
 
 
 docker kill $(docker ps -q); docker rm $(docker ps -a -q)
+docker rmi $(docker images -q)
+
+docker system prune --volumes
+docker system prune
 
 docker compose up --build
 
@@ -56,4 +60,21 @@ iptables -A TCP -p tcp --dport 50001 -j ACCEPT
 iptables -A TCP -p tcp --dport 50002 -j ACCEPT
 iptables -A TCP -p tcp --dport 50003 -j ACCEPT
 
+du -a / | sort -n -r | head -n 10
+
+
+
+docker exec mongo-config-1 mongo --host localhost --port 27019 /usr/local/mongo-config-init/init.js
+
+docker exec mongo-shard-1-1 mongo --host localhost --port 27018 /usr/local/mongo-shard-init/init.js
+docker exec mongo-shard-2-1 mongo --host localhost --port 27018 /usr/local/mongo-shard-init/init.js
+
+docker exec mongos-1 mongo --host localhost --port 27017 /usr/local/mongos-init/init.js
+
+docker exec -it mongo-shard-1-1 mongo --host localhost --port 27018
+docker exec -it mongo-config-1 mongo --host localhost --port 27019
+rs.status()
+
+docker exec -it mongos-1 mongo --host localhost --port 27017
+sh.status()
 

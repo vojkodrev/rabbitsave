@@ -1,0 +1,76 @@
+version: '3.7'
+services:
+
+
+  mongo-shard-1-1:
+    image: mongo
+    container_name: mongo-shard-1-1
+    hostname: mongo-shard-1-1
+    volumes:
+      - ./shard-1/ShardReplicaSet.config:/etc/mongo/ShardReplicaSet.config
+      - ./shard-1/init.js:/usr/local/mongo-shard-init/init.js
+    command: --config /etc/mongo/ShardReplicaSet.config
+    networks:
+      - rabbitsave-network    
+
+  mongo-shard-1-2:
+    image: mongo
+    container_name: mongo-shard-1-2
+    hostname: mongo-shard-1-2
+    volumes:
+      - ./shard-1/ShardReplicaSet.config:/etc/mongo/ShardReplicaSet.config
+    command: --config /etc/mongo/ShardReplicaSet.config
+    networks:
+      - rabbitsave-network      
+
+  mongo-shard-1-3:
+    image: mongo
+    container_name: mongo-shard-1-3
+    hostname: mongo-shard-1-3
+    volumes:
+      - ./shard-1/ShardReplicaSet.config:/etc/mongo/ShardReplicaSet.config
+    command: --config /etc/mongo/ShardReplicaSet.config
+    networks:
+      - rabbitsave-network      
+      
+      
+
+      
+  mongo-shard-2-1:
+    image: mongo
+    container_name: mongo-shard-2-1
+    hostname: mongo-shard-2-1
+    volumes:
+      - ./shard-2/ShardReplicaSet.config:/etc/mongo/ShardReplicaSet.config
+      - ./shard-2/init.js:/usr/local/mongo-shard-init/init.js
+    command: --config /etc/mongo/ShardReplicaSet.config
+    networks:
+      - rabbitsave-network    
+
+  mongo-shard-2-2:
+    image: mongo
+    container_name: mongo-shard-2-2
+    hostname: mongo-shard-2-2
+    volumes:
+      - ./shard-2/ShardReplicaSet.config:/etc/mongo/ShardReplicaSet.config
+    command: --config /etc/mongo/ShardReplicaSet.config
+    networks:
+      - rabbitsave-network      
+
+  mongo-shard-2-3:
+    image: mongo
+    container_name: mongo-shard-2-3
+    hostname: mongo-shard-2-3
+    volumes:
+      - ./shard-2/ShardReplicaSet.config:/etc/mongo/ShardReplicaSet.config
+    command: --config /etc/mongo/ShardReplicaSet.config
+    networks:
+      - rabbitsave-network   
+
+        
+
+
+
+networks:
+  rabbitsave-network:
+    name: rabbitsave-network
