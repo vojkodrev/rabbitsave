@@ -68,11 +68,9 @@ Either run `docker-compose down` or stop them with `Ctrl + c`
 
 ## Connecting
 
-### Postgres db
+### Mongo db
 
-Port 5432 is exposed. So just connect to localhost:5432 with you favourite psql client.
-
-Default username is postgres and password is rabbitsavepass. Database is rabbitsave.
+Mongo db is running on a port 60001.
 
 ### RabbitMQ
 

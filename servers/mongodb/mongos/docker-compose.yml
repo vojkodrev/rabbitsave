@@ -12,7 +12,8 @@ services:
     command: --config /etc/mongo/mongos.config
     networks:
       - rabbitsave-network           
-
+    ports:
+      - 60001:27017
 
 
 networks:
