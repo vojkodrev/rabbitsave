@@ -83,4 +83,7 @@ db.entries.getShardDistribution()
 db.entries.find().limit(5)
 db.entries.deleteMany({})
 db.entries.find({matchId: 14181893}).sort({savedAtMs: 1, savedAtNs: 1}).limit(5)
-db.entries.countDocuments()
+db.entries.countDocuments({})
+
+
+
