@@ -78,3 +78,6 @@ rs.status()
 docker exec -it mongos-1 mongo rabbitsave --host localhost --port 27017
 sh.status()
 
+db.entries.find().limit(5)
+db.entries.deleteMany({})
+db.entries.find({matchId: 14181893}).sort({savedAtMs: 1, savedAtNs: 1}).limit(5)
