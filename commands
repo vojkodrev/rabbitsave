@@ -78,6 +78,7 @@ rs.status()
 docker exec -it mongos-1 mongo rabbitsave --host localhost --port 27017
 docker exec -it mongos-2 mongo rabbitsave --host localhost --port 27017
 sh.status()
+db.entries.getShardDistribution()
 
 db.entries.find().limit(5)
 db.entries.deleteMany({})
