@@ -10,7 +10,7 @@ public class ReadFromQueueAndSaveToDb {
 
   public static void main(String [] args)
   {
-    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50003;MONGODB_HOST=192.168.1.127;MONGODB_PORT=60001;MONGODB_DB_NAME=rabbitsave;MONGODB_COLLECTION=entries;RX_BUFFER_SIZE=500;RX_BUFFER_TIME_LIMIT=1000
+    // RABBITMQ_HOST=192.168.1.127;RABBITMQ_PORT=50003;MONGODB_CONNECTION_STRING=mongodb://192.168.1.127:60001,192.168.1.127:60002;MONGODB_DB_NAME=rabbitsave;MONGODB_COLLECTION=entries;RX_BUFFER_SIZE=500;RX_BUFFER_TIME_LIMIT=1000
 
     int bufferSize = Integer.parseInt(System.getenv("RX_BUFFER_SIZE"));
     int bufferTimeLimit = Integer.parseInt(System.getenv("RX_BUFFER_TIME_LIMIT"));
@@ -23,7 +23,7 @@ public class ReadFromQueueAndSaveToDb {
       .flatMap(RabbitMessageJsonParser::new)
       .flatMap(LineRegexParser::new)
       .buffer(bufferTimeLimit, TimeUnit.MILLISECONDS, bufferSize)
-      .flatMap(PostgresDbSaver::new)
+      .flatMap(MongoDbSaver::new)
       .subscribe(
         item -> {
         },

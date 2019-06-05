@@ -7,11 +7,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-0
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -23,11 +21,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-1
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -39,11 +35,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-2
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -55,11 +49,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-3
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -71,11 +63,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-4
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -87,11 +77,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-5
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -103,11 +91,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-6
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -119,11 +105,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-7
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -135,11 +119,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-8
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:
@@ -151,11 +133,9 @@ services:
     environment:
       - RABBITMQ_HOST=rabbit-9
       - RABBITMQ_PORT=5672
-      - POSTGRES_HOST=rabbitsave-postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB_NAME=rabbitsave
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=rabbitsavepass
+      - MONGODB_CONNECTION_STRING=mongodb://mongos-1:27017,mongos-2:27017
+      - MONGODB_DB_NAME=rabbitsave
+      - MONGODB_COLLECTION=entries
       - RX_BUFFER_SIZE=500
       - RX_BUFFER_TIME_LIMIT=2000
     networks:

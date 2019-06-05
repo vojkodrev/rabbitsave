@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PostgresDbSaver implements ObservableSource<List<Line>> {
+public class MongoDbSaver implements ObservableSource<List<Line>> {
 
   private final List<Line> list;
 
-  final static Logger logger = Logger.getLogger(PostgresDbSaver.class);
+  final static Logger logger = Logger.getLogger(MongoDbSaver.class);
   static MongoCollection<Document> collection;
 
-  public PostgresDbSaver(List<Line> item) {
+  public MongoDbSaver(List<Line> item) {
     this.list = item;
   }
 
@@ -68,16 +68,13 @@ public class PostgresDbSaver implements ObservableSource<List<Line>> {
     if (collection == null) {
       String mongoDbName = System.getenv("MONGODB_DB_NAME");
       String mongoDbCollection = System.getenv("MONGODB_COLLECTION");
+      String mongoDbConnectionString = System.getenv("MONGODB_CONNECTION_STRING");
 
-      String connectionString = "mongodb://"
-        + System.getenv("MONGODB_HOST")
-        + ":" + System.getenv("MONGODB_PORT");
-
-      logger.info("POSTGRESS CONNECTION STRING: " + connectionString);
+      logger.info("MONGO DB CONNECTION STRING: " + mongoDbConnectionString);
       logger.info("MONGO DB NAME: " + mongoDbName);
       logger.info("MONGO DB COLLECTION: " + mongoDbCollection);
 
-      MongoClient mongoClient = MongoClients.create(connectionString);
+      MongoClient mongoClient = MongoClients.create(mongoDbConnectionString);
       MongoDatabase database = mongoClient.getDatabase(mongoDbName);
       collection = database.getCollection(mongoDbCollection);
 
