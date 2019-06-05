@@ -76,6 +76,7 @@ docker exec -it mongo-config-1 mongo --host localhost --port 27019
 rs.status()
 
 docker exec -it mongos-1 mongo rabbitsave --host localhost --port 27017
+docker exec -it mongos-2 mongo rabbitsave --host localhost --port 27017
 sh.status()
 
 db.entries.find().limit(5)

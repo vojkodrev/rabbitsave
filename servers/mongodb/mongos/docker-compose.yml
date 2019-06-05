@@ -15,6 +15,19 @@ services:
     ports:
       - 60001:27017
 
+  mongos-2:
+    image: mongo
+    container_name: mongos-2
+    hostname: mongos-2
+    volumes:
+      - ./mongos.config:/etc/mongo/mongos.config
+    entrypoint: mongos
+    command: --config /etc/mongo/mongos.config
+    networks:
+      - rabbitsave-network           
+    ports:
+      - 60002:27017      
+
 
 networks:
   rabbitsave-network:
